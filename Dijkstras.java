@@ -4,11 +4,13 @@ Node[][] grid;
 int cols, rows;
 int w, h;
 int INFINITY = 999999999;
+boolean init;
 PriorityQueue<Node> Queue;
+Node currentSource;
 
 void setup()
 {
-  
+  init = false;
   size(800,600);
   cols = rows = 40;
   w = width / cols;
@@ -21,9 +23,9 @@ void setup()
       grid[i][j] = new Node(i, j);
     }
   }
-
   
-  Dijkstras(grid[35][35]);  
+  Dijkstras(grid[floor(random(rows-1))][floor(random(cols-1))]);  
+  
   /*
   Queue.add(new Node(1,1));
   Node n = Queue.peek();
@@ -35,6 +37,7 @@ void setup()
 void Dijkstras(Node source)
 {
   
+  currentSource = source;
   for ( int j = 0; j < cols; j++ ) {
     for ( int i = 0; i < rows; i++ ) {
       grid[i][j].score = INFINITY;
@@ -46,14 +49,14 @@ void Dijkstras(Node source)
     }
   }
   
+  if ( !init )
+  {
+    makeObstacles();
+    init = !init;
+  }
   
   source.score = 0;
   source.path.add(source); 
-  
-  for ( int i = 0; i < rows-1; i++) {
-    grid[i][4].setColor(color(255,0,0));
-    grid[i][4].accessible = false;
-  }
   
   Queue.add(source);
   
@@ -94,6 +97,18 @@ void drawPath(Node goal)
   for ( Node n : goal.path )
   {
     n.setColor(color(0,255,0));
+  }
+}
+
+void makeObstacles()
+{
+  for ( int i = 0; i < rows; i++) {
+     for ( int j = 0; j < cols; j++ ) {
+        if ( random(0,5) <= 1 ) {
+          grid[i][j].setColor(color(255,0,0));
+          grid[i][j].accessible = false;
+        }
+     }    
   }
 }
 
@@ -182,4 +197,19 @@ class Node implements Comparable
      return "(" + i + ", " + j + ")";
    }
   
+}
+
+void keyPressed()
+{
+   if ( key == 'a' )
+   {
+     for ( int i = 0; i < rows; i++ ) {
+       for ( int j = 0; j < cols; j++ ) {
+         grid[i][j].accessible = true;
+         grid[i][j].setColor(color(255,255,255));
+       }
+     }
+     makeObstacles();  
+     Dijkstras(currentSource);
+   }
 }
