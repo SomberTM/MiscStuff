@@ -24,8 +24,8 @@ void setup()
     }
   }
   
-  Dijkstras(grid[floor(random(rows-1))][floor(random(cols-1))]);  
-  
+  //Dijkstras(grid[floor(random(rows-1))][floor(random(cols-1))]);  
+  Dijkstras(grid[0][0]);
   /*
   Queue.add(new Node(1,1));
   Node n = Queue.peek();
@@ -145,7 +145,7 @@ class Node implements Comparable
    int i, j;
    color c;
    boolean accessible;
-  
+
    public Node(int i, int j)
    {
      this.i = i; this.j = j;
@@ -217,5 +217,20 @@ void keyPressed()
      }
      makeObstacles();  
      Dijkstras(currentSource);
+   }
+   
+   //Absolute Fucking Mess
+   if ( key == 'g' )
+   {
+     if ( mouseX >= 0 && mouseY >= 0 && mouseX <= width && mouseY <= height ) 
+     {
+       grid[floor(mouseX/w)][floor(mouseY/h)].accessible = !grid[floor(mouseX/w)][floor(mouseY/h)].accessible;
+       if ( !grid[floor(mouseX/w)][floor(mouseY/h)].accessible )
+       {
+         grid[floor(mouseX/w)][floor(mouseY/h)].setColor(color(255,0,0));
+       } else {
+         grid[floor(mouseX/w)][floor(mouseY/h)].setColor(color(255,255,255));
+       }
+     }
    }
 }
