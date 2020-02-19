@@ -123,8 +123,14 @@ void draw()
   
   if ( mousePressed )
   {
-    Node source = grid[floor(mouseX/w)][floor(mouseY/h)];
-    Dijkstras(source);
+    if ( mouseX >= 0 && mouseY >= 0 && mouseX <= width && mouseY <= height ) 
+    {
+      Node source = grid[floor(mouseX/w)][floor(mouseY/h)];
+      if ( source.accessible )
+      {
+        Dijkstras(source);
+      }
+    }
   }
   
 }
