@@ -7,6 +7,7 @@ int INFINITY = 999999999;
 boolean init;
 PriorityQueue<Node> Queue;
 Node currentSource;
+Node currentEnd;
 
 void setup()
 {
@@ -24,14 +25,7 @@ void setup()
     }
   }
   
-  //Dijkstras(grid[floor(random(rows-1))][floor(random(cols-1))]);  
-  Dijkstras(grid[0][0]);
-  /*
-  Queue.add(new Node(1,1));
-  Node n = Queue.peek();
-  print(n.x, n.y);
-  */
-  
+  Dijkstras(grid[0][0]);  
 }
 
 void Dijkstras(Node source)
@@ -81,22 +75,23 @@ void Dijkstras(Node source)
         current.check(grid[current.i][current.j+1]);
     }
     
-    //print(current.i, current.j);
-    //current.setColor(color(0,255,255));
     Queue.remove(current);  
     
   }
   
-  //print(grid[20][20].path);
-  drawPath(grid[39][39]);
+  drawPath(grid[rows-1][cols-1]);
   
 }
 
 void drawPath(Node goal)
 {
-  for ( Node n : goal.path )
-  {
-    n.setColor(color(0,255,0));
+  if ( goal.path.contains(currentSource) ) {
+    for ( Node n : goal.path )
+    {
+      n.setColor(color(0,255,0));
+    }
+  } else {
+    currentSource.setColor(color(0,100,255));
   }
 }
 
@@ -123,12 +118,14 @@ void draw()
   
   if ( mousePressed )
   {
-    if ( mouseX >= 0 && mouseY >= 0 && mouseX <= width && mouseY <= height ) 
-    {
-      Node source = grid[floor(mouseX/w)][floor(mouseY/h)];
-      if ( source.accessible )
+    if ( mouseButton == LEFT ) {
+      if ( mouseX >= 0 && mouseY >= 0 && mouseX <= width && mouseY <= height ) 
       {
-        Dijkstras(source);
+        Node source = grid[floor(mouseX/w)][floor(mouseY/h)];
+        if ( source.accessible )
+        {
+          Dijkstras(source);
+        }
       }
     }
   }
