@@ -1,13 +1,13 @@
-Dijkstras d;
+Dijkstras pather;
 
 void setup()
 {
   size(800,600);
-  d = new Dijkstras(5,5);
-  print(d.grid[0][0]);
+  pather = new Dijkstras(40,40);
+  pather.turnOnPrinter();
 }
 
 void draw()
 {
-  d.update();
+  pather.update();
 }
