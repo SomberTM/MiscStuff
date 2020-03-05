@@ -1,7 +1,7 @@
 void setup()
 {
   size(200,200);
-  Serenity engine = new Serenity();
+  Engine engine = new Engine();
   engine.Start();
   engine.Log(1, "Bruh");
 }
@@ -11,17 +11,17 @@ void draw()
 
 }
 
-class Serenity
+class Engine
 {
   
-  private ArrayList<Serenity.Object> Objects;
+  private ArrayList<Engine.Object> Objects;
   private ArrayList<String> Logs;
   private Logger CoreLogger;
   private boolean Running;
   
-  public Serenity()
+  public Engine()
   {
-    Objects = new ArrayList<Serenity.Object>();
+    Objects = new ArrayList<Engine.Object>();
     Logs = new ArrayList<String>();
     CoreLogger = new Logger();
     Running = false;
@@ -48,12 +48,12 @@ class Serenity
     
   }
   
-  public Serenity.Object obj(float x, float y)
+  public Engine.Object obj(float x, float y)
   {
     return new Object(x, y);
   }
   
-  public Serenity.Rect rectangle(float x, float y, float w, float h)
+  public Engine.Rect rectangle(float x, float y, float w, float h)
   {
     return new Rect(x, y, w, h);
   }
@@ -94,7 +94,7 @@ class Serenity
     
   }
   
-  public class Rect extends Serenity.Object
+  public class Rect extends Engine.Object
   {
     
       public Rect(float x, float y, float w, float h)
