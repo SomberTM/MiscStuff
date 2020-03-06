@@ -1,20 +1,26 @@
+Engine engine;
+Engine.Rect rect;
+
 void setup()
 {
-  size(200,200);
-  Engine engine = new Engine();
-  engine.Start();
-  engine.Log(1, "Bruh");
+  size(400,400);
+  engine = new Engine();
+  rect = engine.rectangle(10,10,50,50);
+  //engine.Start();
+  //engine.Log(1, "Bruh");
 }
 
 void draw()
 {
-
+  background(0);
+  engine.run();
 }
 
 class Engine
 {
   
   private ArrayList<Engine.Object> Objects;
+  private ArrayList<Engine.Rect> Rectangles;
   private ArrayList<String> Logs;
   private Logger CoreLogger;
   private boolean Running;
@@ -22,6 +28,7 @@ class Engine
   public Engine()
   {
     Objects = new ArrayList<Engine.Object>();
+    Rectangles = new ArrayList<Engine.Rect>();
     Logs = new ArrayList<String>();
     CoreLogger = new Logger();
     Running = false;
@@ -30,7 +37,7 @@ class Engine
   public void Start()
   {
     Running = true;
-    inert();
+    //inert();
   }
   
   public void Stop()
@@ -38,14 +45,17 @@ class Engine
     Running = false;
   }
   
-  private void inert()
+  private void run()
   {
-    //CoreLogger.Log(1, "GELP");
-    while (Running) 
-    {  
-      
+    GraphicsHandler();    
+  }
+  
+  private void GraphicsHandler()
+  {
+    for (Rect rect : Rectangles)
+    {
+      rect.update();
     }
-    
   }
   
   public Engine.Object obj(float x, float y)
@@ -95,13 +105,18 @@ class Engine
   }
   
   public class Rect extends Engine.Object
-  {
-    
+  {   
       public Rect(float x, float y, float w, float h)
-      {
+      {       
         super(x, y, w, h);
+        Rectangles.add(this);
+      }    
+      
+      public void update()
+      {
+        fill(255);
+        rect(x, y, w, h);
       }
-    
   }
   
   public class Logger
@@ -123,9 +138,9 @@ class Engine
     
     public void INFO()
     {
-      println("KEY 1: [LOG]");
-      println("KEY 2: [WARN]");
-      println("KEY 2: [FATAL]");
+      println("LOG_LEVEL 1 -> [LOG]");
+      println("LOG_LEVEL 2 -> [WARN]");
+      println("LOG_LEVEL 2 -> [FATAL]");
     }
     
     public void ErrorLog(int level)
